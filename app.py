@@ -1,4 +1,4 @@
-import streamlit as st
+import app as st
 import numpy as np
 import tensorflow as ts
 from PIL import Image
@@ -13,7 +13,7 @@ st.title("IA Clasificadora de estilos artisticos")
 st.markdown("Sube una imagen: ")
 
 def descargar_modelo(): #para descargar el modelo que eta guardado en la nuve
-    modelo_url = ""
+    modelo_url = "https://drive.google.com/file/d/1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo/view?usp=drive_link"
     if not os.path.exists("modelo_clasificador_arte.h5"):
         with st.spinner("Descargando modelo ....."):
             urllib.request.urlretrieve(modelo_url, "modelo_clasificador_Arte.h5")
