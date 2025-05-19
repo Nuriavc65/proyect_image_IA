@@ -3,11 +3,21 @@ import numpy as np
 import tensorflow as ts
 from PIL import Image
 import json
+import os
+import urllib.request
+
 
 st.set_page_config(page_title="Clasificador de estilos artisticos", layout="centered")
 st.title("IA Clasificadora de estilos artisticos")
 
 st.markdown("Sube una imagen: ")
+
+def descargar_modelo(): #para descargar el modelo que eta guardado en la nuve
+    modelo_url = ""
+    if not os.path.exists("modelo_clasificador_arte.h5"):
+        with st.spinner("Descargando modelo ....."):
+            urllib.request.urlretrieve(modelo_url, "modelo_clasificador_Arte.h5")
+            st.success("Modelo descargado exitosamente.")
 
 def cargar_modelo():
     modelo = ts.keras.models.load_model("modelo_clasificador_Arte.h5") #cargar el modelo guardado en la clase modelo
