@@ -22,7 +22,7 @@ def descargar_modelo():
 
 def cargar_modelo():
     descargar_modelo()
-    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.h5")
+    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.h5", compile=False)
     with open("clases.json", "r") as f:
         clases = json.load(f)
     indice_a_clase = {v: k for k, v in clases.items()}
