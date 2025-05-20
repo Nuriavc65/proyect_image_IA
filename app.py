@@ -6,20 +6,21 @@ import json
 import os
 import urllib.request
 import requests
+import gdown
 
 st.set_page_config(page_title="Clasificador de estilos artisticos", layout="centered")
 st.title("IA Clasificadora de estilos artisticos")
 
 st.markdown("Sube una imagen: ")
+  
 def descargar_modelo():
-    modelo_url = "https://drive.google.com/uc?export=download&id=1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo"
     modelo_path = "modelo_clasificador_Arte.h5"
+    modelo_id = "1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo"
+    url = f"https://drive.google.com/uc?id={modelo_id}"
 
     if not os.path.exists(modelo_path):
         with st.spinner("Descargando modelo..."):
-            response = requests.get(modelo_url)
-            with open(modelo_path, "wb") as f:
-                f.write(response.content)
+            gdown.download(url, modelo_path, quiet=False)
             st.success("Modelo descargado exitosamente.")
 
 def cargar_modelo():
