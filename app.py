@@ -5,27 +5,34 @@ from PIL import Image
 import json
 import os
 import urllib.request
-
+import requests
 
 st.set_page_config(page_title="Clasificador de estilos artisticos", layout="centered")
 st.title("IA Clasificadora de estilos artisticos")
 
 st.markdown("Sube una imagen: ")
+def descargar_modelo():
+    modelo_url = "https://drive.google.com/uc?export=download&id=1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo"
+    modelo_path = "modelo_clasificador_Arte.h5"
 
-def descargar_modelo(): #para descargar el modelo que eta guardado en la nuve
-    modelo_url = "https://drive.google.com/file/d/1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo/view?usp=drive_link"
-    if not os.path.exists("modelo_clasificador_arte.h5"):
-        with st.spinner("Descargando modelo ....."):
-            urllib.request.urlretrieve(modelo_url, "modelo_clasificador_Arte.h5")
+    if not os.path.exists(modelo_path):
+        with st.spinner("Descargando modelo..."):
+            response = requests.get(modelo_url)
+            with open(modelo_path, "wb") as f:
+                f.write(response.content)
             st.success("Modelo descargado exitosamente.")
 
 def cargar_modelo():
-    modelo = ts.keras.models.load_model("modelo_clasificador_Arte.h5") #cargar el modelo guardado en la clase modelo
-    with open("clases.json", "r") as f: #se cargan todas las clases posibles
+    modelo = ts.keras.models.load_model("modelo_clasificador_Arte.h5")
+    with open("clases.json", "r") as f:
         clases = json.load(f)
     indice_a_clase = {v: k for k, v in clases.items()}
     return modelo, indice_a_clase
 
+# Descargar el modelo si no existe
+descargar_modelo()
+
+# Cargar modelo y clases
 modelo, indice_a_clase = cargar_modelo()
 
 archivo = st.file_uploader("Sube una imagen", type=["jpg", "jpeg", "png"])
