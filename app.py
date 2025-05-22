@@ -13,8 +13,8 @@ st.title("IA Clasificadora de estilos artisticos")
 
   
 def descargar_modelo(): 
-   modelo_url = "https://drive.google.com/uc?id=1ZQUu0LRuZdnbDQJJaIeXgv-IUYVYppoo"
-   modelo_path = "modelo_clasificador_Arte.h5"
+   modelo_url = "https://drive.google.com/file/d/13VFre1SU4i4UzrQmsRxfYCJOkCkeAKzu/view?usp=drive_link"
+   modelo_path = "modelo_clasificador_Arte.keras"
    if not os.path.exists(modelo_path):
        with st.spinner("Descargando modelo ...."):
             gdown.download(modelo_url, modelo_path, quiet=False)
@@ -22,7 +22,7 @@ def descargar_modelo():
 
 def cargar_modelo():
     descargar_modelo()
-    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.h5", compile=False)
+    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.keras", compile=False)
     with open("clases.json", "r") as f:
         clases = json.load(f)
     indice_a_clase = {v: k for k, v in clases.items()}
