@@ -37,7 +37,7 @@ if archivo is not None:
     st.image(imagen_pil, caption="📷 Imagen cargada", use_column_width=True)
 
     # Preprocesar imagen
-    imagen_array = imagen_pil.resize((224, 224)) #Redimensiona la imagen a 224x224 píxeles,
+    imagen_array = imagen_pil.resize((128, 128)) #Redimensiona la imagen a 128x128 píxeles,
     imagen_array = tf.keras.preprocessing.image.img_to_array(imagen_array)
     imagen_array = np.expand_dims(imagen_array, axis=0) #Añade una dimensión extra al array
     imagen_array = imagen_array / 255.0 #mejorar el rendimiento y estabilidad 
