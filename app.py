@@ -13,26 +13,23 @@ st.title("IA Clasificadora de estilos artisticos")
 
   
 def descargar_modelo(): 
-   modelo_url = "https://drive.google.com/file/d/13VFre1SU4i4UzrQmsRxfYCJOkCkeAKzu/view?usp=drive_link"
-   modelo_path = "modelo_clasificador_Arte.keras"
-   if not os.path.exists(modelo_path):
-       with st.spinner("Descargando modelo ...."):
-            gdown.download(modelo_url, modelo_path, quiet=False)
-            st.success("Modelo descargado correctamente.")
+    modelo_url = "https://drive.google.com/uc?export=download&id=13VFre1SU4i4UzrQmsRxfYCJOkCkeAKzu"
+    if not os.path.exists("modelo_clasificador_Arte.keras"):
+        with st.spinner("Descargando modelo ....."):
+            urllib.request.urlretrieve(modelo_url, "modelo_clasificador_Arte.keras")
+            st.success("Modelo descargado exitosamente.")
 
 def cargar_modelo():
-    descargar_modelo()
-    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.keras", compile=False)
+    modelo = tf.keras.models.load_model("modelo_clasificador_Arte.keras")
     with open("clases.json", "r") as f:
         clases = json.load(f)
     indice_a_clase = {v: k for k, v in clases.items()}
     return modelo, indice_a_clase
 
-
-st.markdown("Sube una imagen: ")
-# Cargar modelo y clases
+descargar_modelo()
 modelo, indice_a_clase = cargar_modelo()
 
+st.markdown("Sube una imagen: ")
 archivo = st.file_uploader("Sube una imagen", type=["jpg", "jpeg", "png"])
 
 if archivo is not None:
